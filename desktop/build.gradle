@@ -1,0 +1,62 @@
+/*
+ * Copyright 2016 Surasek Nusati <surasek@gmail.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+apply plugin: "java"
+
+sourceCompatibility = 1.8
+sourceSets.main.java.srcDirs = ["src/"]
+
+project.ext.mainClassName = "th.skyousuke.flappybird.desktop.DesktopLauncher"
+project.ext.assetsDir = new File("../core/assets");
+
+task run(dependsOn: classes, type: JavaExec) {
+    main = project.mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+    workingDir = project.assetsDir
+    ignoreExitValue = true
+}
+
+task dist(type: Jar) {
+    from files(sourceSets.main.output.classesDir)
+    from files(sourceSets.main.output.resourcesDir)
+    from { configurations.compile.collect { zipTree(it) } }
+    from files(project.assetsDir);
+
+    manifest {
+        attributes 'Main-Class': project.mainClassName
+    }
+}
+
+dist.dependsOn classes
+
+eclipse {
+    project {
+        name = appName + "-desktop"
+        linkedResource name: 'assets', type: '2', location: 'PARENT-1-PROJECT_LOC/core/assets'
+    }
+}
+
+task afterEclipseImport(description: "Post processing after project generation", group: "IDE") {
+    doLast {
+        def classpath = new XmlParser().parse(file(".classpath"))
+        new Node(classpath, "classpathentry", [kind: 'src', path: 'assets']);
+        def writer = new FileWriter(file(".classpath"))
+        def printer = new XmlNodePrinter(new PrintWriter(writer))
+        printer.setPreserveWhitespace(true)
+        printer.print(classpath)
+    }
+}
