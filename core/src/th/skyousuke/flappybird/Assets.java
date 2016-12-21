@@ -21,6 +21,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Disposable;
 
 public class Assets implements Disposable, AssetErrorListener {
@@ -29,7 +33,8 @@ public class Assets implements Disposable, AssetErrorListener {
 
     private AssetManager manager;
 
-//    public TextureAtlas image;
+    public TextureAtlas image;
+    public BitmapFont font;
 //    public Music music;
 
     private Assets() {
@@ -40,13 +45,18 @@ public class Assets implements Disposable, AssetErrorListener {
         manager.setErrorListener(this);
 
         //TODO
-//        manager.load("images.atlas", TextureAtlas.class);
+        manager.load("image.atlas", TextureAtlas.class);
+        manager.load("font.fnt", BitmapFont.class);
 //        manager.load("music.mp3", Music.class);
 //        manager.load("button.mp3", Sound.class);
 
         manager.finishLoading();
 
-//        image = manager.get("image.atlas");
+        image = manager.get("image.atlas");
+        font = manager.get("font.fnt");
+        font.setColor(Color.BLACK);
+        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
 //        music = manager.get("music.mp3");
     }
 

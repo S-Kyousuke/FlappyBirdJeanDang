@@ -66,7 +66,7 @@ public class CameraHelper {
         if (!hasTarget())
             return;
         position.x = target.getPosition().x + target.getOrigin().x;
-        position.y = target.getPosition().y + target.getOrigin().y;
+        //position.y = target.getPosition().y + target.getOrigin().y;
     }
 
 }

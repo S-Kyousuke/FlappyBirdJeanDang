@@ -16,8 +16,10 @@
 
 package th.skyousuke.flappybird;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -29,6 +31,7 @@ public class WorldRenderer implements Disposable {
     private OrthographicCamera camera;
     private FitViewport viewport;
     private SpriteBatch batch;
+    private ShapeRenderer shapeRenderer;
 
     public WorldRenderer(WorldController worldController) {
         this.worldController = worldController;
@@ -37,11 +40,40 @@ public class WorldRenderer implements Disposable {
         viewport = new FitViewport(FlappyBirdJeanDang.SCREEN_WIDTH, FlappyBirdJeanDang.SCREEN_HEIGHT, camera);
 
         batch = new SpriteBatch();
+        shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setColor(Color.RED);
     }
 
     public void render() {
         worldController.getCameraHelper().applyTo(camera);
         batch.setProjectionMatrix(camera.combined);
+        shapeRenderer.setProjectionMatrix(camera.combined);
+
+        batch.begin();
+        worldController.getBackground().render(batch);
+        worldController.getScrollingFloor().render(batch);
+        for (Pipe pipe : worldController.getPipes()) {
+            pipe.render(batch);
+        }
+        worldController.getBird().render(batch);
+
+        if (!worldController.isGameStart()) {
+
+        }
+        if (worldController.isGameOver()) {
+            //TODO
+        }
+        batch.end();
+
+        /*
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        worldController.getBird().debug(shapeRenderer);
+        worldController.getScrollingFloor().debug(shapeRenderer);
+        for (Pipe pipe : worldController.getPipes()) {
+            pipe.debug(shapeRenderer);
+        }
+        shapeRenderer.end();
+        */
     }
 
     public void resize(int width, int height) {
@@ -51,5 +83,6 @@ public class WorldRenderer implements Disposable {
     @Override
     public void dispose() {
         batch.dispose();
+        shapeRenderer.dispose();
     }
 }

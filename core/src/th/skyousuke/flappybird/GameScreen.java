@@ -24,30 +24,38 @@ public class GameScreen extends AbstractGameScreen {
 
     private WorldRenderer worldRenderer;
     private WorldController worldController;
+    private Hud hud;
 
     public GameScreen() {
         worldController = new WorldController();
         worldRenderer = new WorldRenderer(worldController);
+        hud = new Hud();
+
+        worldController.setListener(hud);
     }
 
     @Override
     public void render(float delta) {
-        worldController.update(delta);
-
-        Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        worldController.update(delta);
         worldRenderer.render();
+
+        hud.update(delta);
+        hud.render();
     }
 
     @Override
     public void resize(int width, int height) {
         worldRenderer.resize(width, height);
+        hud.render();
     }
 
     @Override
     public void hide() {
         worldRenderer.dispose();
+        hud.dispose();
     }
 
 }
