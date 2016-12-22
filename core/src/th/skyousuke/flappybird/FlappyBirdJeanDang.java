@@ -20,8 +20,8 @@ import com.badlogic.gdx.Game;
 
 public class FlappyBirdJeanDang extends Game {
 
-    public static final int SCREEN_HEIGHT = 640;
-    public static final int SCREEN_WIDTH = 360;
+    public static final int SCENE_HEIGHT = 640;
+    public static final int SCENE_WIDTH = 360;
 
     @Override
     public void create() {

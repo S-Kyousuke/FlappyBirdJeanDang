@@ -28,14 +28,6 @@ public class CameraHelper {
         position = new Vector2();
     }
 
-    public void setPosition(float x, float y) {
-        this.position.set(x, y);
-    }
-
-    public void addPosition(float x, float y) {
-        this.position.add(x, y);
-    }
-
     public Vector2 getPosition() {
         return position;
     }
@@ -46,27 +38,12 @@ public class CameraHelper {
         camera.update();
     }
 
-    public AbstractGameObject getTarget() {
-        return target;
-    }
-
     public void setTarget(AbstractGameObject target) {
         this.target = target;
     }
 
-    public boolean hasTarget() {
-        return target != null;
-    }
-
-    public boolean hasTarget(AbstractGameObject target) {
-        return this.target.equals(target);
-    }
-
     public void update() {
-        if (!hasTarget())
-            return;
         position.x = target.getPosition().x + target.getOrigin().x;
-        //position.y = target.getPosition().y + target.getOrigin().y;
     }
 
 }

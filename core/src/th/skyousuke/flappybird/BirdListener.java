@@ -18,7 +18,10 @@ package th.skyousuke.flappybird;
 
 interface BirdListener {
 
-    void hitPipe();
+    void birdPassedOverPipe();
 
-    void hitFloor();
+    void birdHitPipe();
+
+    void birdHitFloor();
+
 }

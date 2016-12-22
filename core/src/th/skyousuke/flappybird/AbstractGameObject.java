@@ -75,19 +75,6 @@ public abstract class AbstractGameObject {
 
     public abstract void render(SpriteBatch batch);
 
-//    public void render(SpriteBatch batch, TextureRegion region) {
-//        float WIDTH = region.getRegionWidth();
-//        float HEIGHT = region.getRegionHeight();
-//
-//        origin.x = WIDTH / 2;
-//        origin.y = HEIGHT / 2;
-//
-//        batch.draw(region,
-//                position.x, position.y, origin.x, origin.y,
-//                WIDTH, HEIGHT,
-//                1.0f, 1.0f, rotation);
-//    }
-
     public Vector2 getPosition() {
         return position;
     }
@@ -129,11 +116,6 @@ public abstract class AbstractGameObject {
         return scale;
     }
 
-//    public void setScale(float x, float y) {
-//        scale.x = x;
-//        scale.y = y;
-//    }
-
     public Polygon getBound() {
         return bound;
     }
@@ -145,7 +127,6 @@ public abstract class AbstractGameObject {
     public boolean overlaps(AbstractGameObject object) {
         return Intersector.overlapConvexPolygons(bound, object.getBound());
     }
-
 
     public float getRotation() {
         return rotation;

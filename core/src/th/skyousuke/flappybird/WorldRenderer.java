@@ -37,7 +37,7 @@ public class WorldRenderer implements Disposable {
         this.worldController = worldController;
 
         camera = new OrthographicCamera();
-        viewport = new FitViewport(FlappyBirdJeanDang.SCREEN_WIDTH, FlappyBirdJeanDang.SCREEN_HEIGHT, camera);
+        viewport = new FitViewport(FlappyBirdJeanDang.SCENE_WIDTH, FlappyBirdJeanDang.SCENE_HEIGHT, camera);
 
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
@@ -52,28 +52,17 @@ public class WorldRenderer implements Disposable {
         batch.begin();
         worldController.getBackground().render(batch);
         worldController.getScrollingFloor().render(batch);
-        for (Pipe pipe : worldController.getPipes()) {
-            pipe.render(batch);
-        }
+        worldController.getScrollingPipe().render(batch);
         worldController.getBird().render(batch);
-
-        if (!worldController.isGameStart()) {
-
-        }
-        if (worldController.isGameOver()) {
-            //TODO
-        }
         batch.end();
+    }
 
-        /*
+    public void debug() {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         worldController.getBird().debug(shapeRenderer);
         worldController.getScrollingFloor().debug(shapeRenderer);
-        for (Pipe pipe : worldController.getPipes()) {
-            pipe.debug(shapeRenderer);
-        }
+        worldController.getScrollingPipe().debug(shapeRenderer);
         shapeRenderer.end();
-        */
     }
 
     public void resize(int width, int height) {

@@ -35,7 +35,6 @@ public class Assets implements Disposable, AssetErrorListener {
 
     public TextureAtlas image;
     public BitmapFont font;
-//    public Music music;
 
     private Assets() {
     }
@@ -44,11 +43,8 @@ public class Assets implements Disposable, AssetErrorListener {
         manager = new AssetManager();
         manager.setErrorListener(this);
 
-        //TODO
         manager.load("image.atlas", TextureAtlas.class);
         manager.load("font.fnt", BitmapFont.class);
-//        manager.load("music.mp3", Music.class);
-//        manager.load("button.mp3", Sound.class);
 
         manager.finishLoading();
 
@@ -56,8 +52,6 @@ public class Assets implements Disposable, AssetErrorListener {
         font = manager.get("font.fnt");
         font.setColor(Color.BLACK);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-
-//        music = manager.get("music.mp3");
     }
 
     @Override

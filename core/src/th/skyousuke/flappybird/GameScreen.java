@@ -18,6 +18,7 @@ package th.skyousuke.flappybird;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 
 public class GameScreen extends AbstractGameScreen {
@@ -25,6 +26,8 @@ public class GameScreen extends AbstractGameScreen {
     private WorldRenderer worldRenderer;
     private WorldController worldController;
     private Hud hud;
+
+    private boolean debug;
 
     public GameScreen() {
         worldController = new WorldController();
@@ -39,8 +42,13 @@ public class GameScreen extends AbstractGameScreen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F1))
+            debug = !debug;
+
         worldController.update(delta);
         worldRenderer.render();
+        if (debug)
+            worldRenderer.debug();
 
         hud.update(delta);
         hud.render();
@@ -49,7 +57,7 @@ public class GameScreen extends AbstractGameScreen {
     @Override
     public void resize(int width, int height) {
         worldRenderer.resize(width, height);
-        hud.render();
+        hud.resize(width, height);
     }
 
     @Override

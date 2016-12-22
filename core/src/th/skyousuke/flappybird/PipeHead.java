@@ -22,8 +22,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class PipeHead extends AbstractGameObject {
 
-    private static final int WIDTH;
     public static final int HEIGHT;
+
+    private static final int WIDTH;
     private static final TextureRegion region;
 
     static {

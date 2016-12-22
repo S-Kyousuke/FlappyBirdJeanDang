@@ -30,7 +30,11 @@ public class PipeBody extends AbstractGameObject {
         WIDTH = region.getRegionWidth();
     }
 
-    public PipeBody(int height) {
+    public PipeBody() {
+        setHeight(0);
+    }
+
+    public void setHeight(int height) {
         setDimension(WIDTH, height);
         setBound(new float[]{0, 0, 0, height, WIDTH, height, WIDTH, 0});
     }

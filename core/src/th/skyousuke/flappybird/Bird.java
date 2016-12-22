@@ -149,7 +149,7 @@ public class Bird extends AbstractGameObject {
         flyAcceleration = 0;
         playAnimation = false;
         setAcceleration(0, GRAVITY_ACCELERATION);
-        listener.hitPipe();
+        listener.birdHitPipe();
     }
 
     public void hitFloor() {
@@ -159,6 +159,10 @@ public class Bird extends AbstractGameObject {
         flyAcceleration = 0;
         playAnimation = false;
         setAcceleration(0, 0);
-        listener.hitFloor();
+        listener.birdHitFloor();
+    }
+
+    public void passOverPipe() {
+        listener.birdPassedOverPipe();
     }
 }

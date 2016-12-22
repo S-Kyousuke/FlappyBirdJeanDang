@@ -34,22 +34,22 @@ public class ScrollingFloor {
         for (int i = 0; i < floors.length; i++) {
             floors[i] = new Floor();
             floors[i].setPosition(
-                    -FlappyBirdJeanDang.SCREEN_WIDTH / 2 + i * floors[i].getDimension().x - POSITION_CORRECTION * i,
-                    -FlappyBirdJeanDang.SCREEN_HEIGHT / 2);
+                    -FlappyBirdJeanDang.SCENE_WIDTH / 2 + i * floors[i].getDimension().x - POSITION_CORRECTION * i,
+                    -FlappyBirdJeanDang.SCENE_HEIGHT / 2);
         }
     }
 
     public void update(CameraHelper cameraHelper) {
-        for (int i = 0; i < floors.length; i++) {
-            final Vector2 floorPosition = floors[i].getPosition();
-            final float floorWidth = floors[i].getDimension().x;
+        for (Floor floor : floors) {
+            final Vector2 floorPosition = floor.getPosition();
+            final float floorWidth = floor.getDimension().x;
             final float cameraPositionX = cameraHelper.getPosition().x;
-            final float halfScreenWidth = FlappyBirdJeanDang.SCREEN_WIDTH / 2;
+            final float halfScreenWidth = FlappyBirdJeanDang.SCENE_WIDTH / 2;
 
             if (floorPosition.x + floorWidth <
                     cameraPositionX - halfScreenWidth) {
                 float deltaX = (FLOOR_COUNT) * floorWidth - POSITION_CORRECTION * (FLOOR_COUNT);
-                floors[i].setPosition(floorPosition.x + deltaX, floorPosition.y);
+                floor.setPosition(floorPosition.x + deltaX, floorPosition.y);
             }
         }
     }

@@ -21,29 +21,38 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class Pipe {
 
-    private final static int HALF_WIDTH_DIFFERENCE = 6;
-    private final static int HEAD_HEIGHT = 36;
+    private static final int HALF_WIDTH_DIFFERENCE = 6;
+    private static final int HEAD_HEIGHT = 36;
 
     private PipeBody body;
     private PipeHead head;
 
     private final boolean invert;
 
-    public Pipe(int height) {
-        this(height, false);
+    public Pipe() {
+        this(false);
     }
 
-    public Pipe(int height, boolean invert) {
-        body = new PipeBody(height);
+    public Pipe(boolean invert) {
+        body = new PipeBody();
         head = new PipeHead();
 
         this.invert = invert;
-        setPipeBaseLeftPositionX(0);
+        setPositionX(0);
     }
 
-    public void setPipeBaseLeftPositionX(float x) {
+    public void setBodyHeight(int height) {
+        body.setHeight(height);
+    }
 
-        final int halfScreenHeight = FlappyBirdJeanDang.SCREEN_HEIGHT / 2;
+    /**
+     * Set the x position of the pipe body.
+     *
+     * @param x the x position of the left edge of the pipe body.
+     */
+    public void setPositionX(float x) {
+
+        final int halfScreenHeight = FlappyBirdJeanDang.SCENE_HEIGHT / 2;
         final float bodyHeight = body.getDimension().y;
 
         if (!invert) {
@@ -53,6 +62,15 @@ public class Pipe {
             body.setPosition(x, halfScreenHeight - bodyHeight);
             head.setPosition(x - HALF_WIDTH_DIFFERENCE, halfScreenHeight - bodyHeight - HEAD_HEIGHT);
         }
+    }
+
+    /**
+     * Return the x position of the pipe body.
+     *
+     * @return the x position of the left edge of the pipe body.
+     */
+    public float getPositionX() {
+        return body.getPosition().x;
     }
 
     public void render(SpriteBatch batch) {
@@ -68,4 +86,11 @@ public class Pipe {
     public boolean overlaps(AbstractGameObject object) {
         return body.overlaps(object) || head.overlaps(object);
     }
+
+    public boolean outOfScene(CameraHelper cameraHelper) {
+        return head.getPosition().x + head.getDimension().x
+                < cameraHelper.getPosition().x - FlappyBirdJeanDang.SCENE_WIDTH / 2;
+    }
+
+
 }

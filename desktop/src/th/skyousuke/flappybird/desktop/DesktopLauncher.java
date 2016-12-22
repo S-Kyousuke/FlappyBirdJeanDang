@@ -24,8 +24,8 @@ import th.skyousuke.flappybird.FlappyBirdJeanDang;
 public class DesktopLauncher {
     public static void main(String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.height = FlappyBirdJeanDang.SCREEN_HEIGHT;
-        config.width = FlappyBirdJeanDang.SCREEN_WIDTH;
+        config.height = FlappyBirdJeanDang.SCENE_HEIGHT;
+        config.width = FlappyBirdJeanDang.SCENE_WIDTH;
         new LwjglApplication(new FlappyBirdJeanDang(), config);
     }
 }

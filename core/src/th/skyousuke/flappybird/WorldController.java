@@ -17,7 +17,6 @@
 package th.skyousuke.flappybird;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.Array;
 
 
 public class WorldController implements BirdListener {
@@ -25,8 +24,7 @@ public class WorldController implements BirdListener {
     private CameraHelper cameraHelper;
     private ScrollingFloor scrollingFloor;
     private Background background;
-    private Array<Pipe> pipes;
-    private PipeGenerator pipeGenerator;
+    private ScrollingPipe scrollingPipe;
     private Bird bird;
 
     private boolean birdHitPipe;
@@ -34,6 +32,7 @@ public class WorldController implements BirdListener {
     private boolean gameOver;
 
     private WorldListener listener;
+    private int score;
 
     public WorldController() {
         init();
@@ -43,8 +42,7 @@ public class WorldController implements BirdListener {
         cameraHelper = new CameraHelper();
         scrollingFloor = new ScrollingFloor();
         background = new Background();
-        pipes = new Array<>();
-        pipeGenerator = new PipeGenerator();
+        scrollingPipe = new ScrollingPipe();
         bird = new Bird(this);
 
         cameraHelper.setTarget(bird);
@@ -53,15 +51,10 @@ public class WorldController implements BirdListener {
         gameStart = false;
         gameOver = false;
 
+        setScore(0);
+
         if (listener != null)
             listener.gameRestart();
-    }
-
-    public void startPipeGenerator() {
-        pipeGenerator.setLastPipePositionX(cameraHelper.getPosition().x + 300);
-        for (int i = 0; i < 1000; i++) {
-            pipeGenerator.generatePipe(pipes);
-        }
     }
 
     public void handleInput() {
@@ -78,7 +71,7 @@ public class WorldController implements BirdListener {
 
     private void startGame() {
         bird.start();
-        startPipeGenerator();
+        scrollingPipe.startGeneratePipe(bird.getPosition().x + 500);
         gameStart = true;
         if (listener != null)
             listener.gameStart();
@@ -90,22 +83,17 @@ public class WorldController implements BirdListener {
         bird.update(deltaTime);
         cameraHelper.update();
 
+        scrollingPipe.update(cameraHelper, bird);
         background.update(cameraHelper);
         scrollingFloor.update(cameraHelper);
 
         if (!gameOver) {
             if (scrollingFloor.overlaps(bird)) {
                 bird.hitFloor();
-            } else if (!birdHitPipe) {
-                for (Pipe pipe : pipes) {
-                    if (pipe.overlaps(bird)) {
-                        bird.hitPipe();
-                        break;
-                    }
-                }
+            } else if (!birdHitPipe && scrollingPipe.overlaps(bird)) {
+                bird.hitPipe();
             }
         }
-
     }
 
     public CameraHelper getCameraHelper() {
@@ -125,28 +113,32 @@ public class WorldController implements BirdListener {
     }
 
     @Override
-    public void hitPipe() {
+    public void birdHitPipe() {
         birdHitPipe = true;
     }
 
     @Override
-    public void hitFloor() {
+    public void birdHitFloor() {
         gameOver = true;
-    }
-
-    public boolean isGameStart() {
-        return gameStart;
-    }
-
-    public boolean isGameOver() {
-        return gameOver;
-    }
-
-    public Array<Pipe> getPipes() {
-        return pipes;
     }
 
     public void setListener(WorldListener listener) {
         this.listener = listener;
     }
+
+    public ScrollingPipe getScrollingPipe() {
+        return scrollingPipe;
+    }
+
+    private void setScore(int score) {
+        this.score = score;
+        if (listener != null)
+            listener.scoreUpdate(score);
+    }
+
+    @Override
+    public void birdPassedOverPipe() {
+        setScore(score + 1);
+    }
+
 }

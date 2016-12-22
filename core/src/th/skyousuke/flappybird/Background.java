@@ -26,16 +26,13 @@ public class Background {
 
     private static final TextureRegion backgroundRegion = Assets.instance.image.findRegion("background");
 
-    public Background() {
-    }
-
     public void update(CameraHelper cameraHelper) {
         cameraPositionX = cameraHelper.getPosition().x;
     }
 
     public void render(SpriteBatch batch) {
-        batch.draw(backgroundRegion, -FlappyBirdJeanDang.SCREEN_WIDTH / 2 + cameraPositionX,
-                Floor.HEIGHT - FlappyBirdJeanDang.SCREEN_HEIGHT / 2);
+        batch.draw(backgroundRegion, -FlappyBirdJeanDang.SCENE_WIDTH / 2 + cameraPositionX,
+                Floor.HEIGHT - FlappyBirdJeanDang.SCENE_HEIGHT / 2);
     }
 
 }

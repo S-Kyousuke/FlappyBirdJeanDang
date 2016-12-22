@@ -23,7 +23,5 @@ public interface WorldListener {
 
     void gameStart();
 
-    void gameOver();
-
     void scoreUpdate(int score);
 }

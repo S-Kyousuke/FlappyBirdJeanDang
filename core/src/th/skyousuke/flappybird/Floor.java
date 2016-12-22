@@ -35,7 +35,6 @@ public class Floor extends AbstractGameObject {
     public Floor() {
         setDimension(WIDTH, HEIGHT);
         setBound(new float[]{0, 0, 0, HEIGHT, WIDTH, HEIGHT, WIDTH, 0});
-//        getBound().add(new Rectangle(0, 0, WIDTH, HEIGHT));
     }
 
     @Override
